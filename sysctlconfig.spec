@@ -13,10 +13,10 @@ Source0:	%{name}-%{version}.tar.bz2
 Source1:	sysctlconfig-gtk.png.bz2
 Patch0:		sysctlconfig-0.15-gcc34.diff.bz2
 ExcludeArch:	ia64
-BuildPrereq:	gtk+-devel
-BuildPrereq:	gtk+
-BuildPrereq:	libxml-devel
-BuildPrereq:	chrpath
+BuildRequires:	gtk+-devel
+BuildRequires:	gtk+
+BuildRequires:	libxml-devel
+BuildRequires:	chrpath
 Requires:	procps
 Requires:	usermode
 BuildRoot:	%{_tmppath}/%{name}-buildroot
