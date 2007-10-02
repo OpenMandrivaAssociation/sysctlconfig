@@ -11,8 +11,9 @@ Group:		System/Kernel and hardware
 URL:		http://www.redhat.de/
 Source0:	%{name}-%{version}.tar.bz2
 Source1:	sysctlconfig-gtk.png.bz2
-Patch0:		sysctlconfig-0.15-gcc34.diff.bz2
+Patch0:		sysctlconfig-0.15-gcc34.diff
 ExcludeArch:	ia64
+BuildRequires:	desktop-file-utils recode
 BuildRequires:	gtk+-devel
 BuildRequires:	gtk+
 BuildRequires:	libxml-devel
@@ -72,28 +73,19 @@ SESSION=true
 EOF
 ln -s %{_bindir}/consolehelper %{buildroot}%{_bindir}/sysctlconfig-gtk
 
-cat > %{buildroot}%{_sysconfdir}/X11/applnk/System/sysctlconfig.desktop << EOF
-[Desktop Entry]
-Name=Proc Configuration
-Comment=A tool for tuning kernel parameters
-Exec=%{_sbindir}/sysctlconfig-gtk
-Icon=sysctlconfig-gtk.png
-Terminal=0
-Type=Application
-EOF
 
-# fix menu stuff...
+mkdir -p %{buildroot}%{_datadir}/applications 
+mv %{buildroot}%{_sysconfdir}/X11/applnk/System/%{name}.desktop %{buildroot}%{_datadir}/applications/
 
-# install menu entry.
-cat <<EOF > %{buildroot}%{_libdir}/menu/%{name}
-?package(%{name}): \
-needs="X11" \
-section="Configuration/Hardware" \
-title="Proc Configuration" \
-longtitle="A tool for tuning kernel parameters." \
-command="%{_sbindir}/sysctlconfig-gtk" \
-icon="sysctlconfig-gtk.png"
-EOF
+recode ISO-8859-15..UTF-8 %{buildroot}%{_datadir}/applications/%{name}.desktop
+perl -pi -e 's,%{name}-gtk.xpm,%{name}-gtk,g' %{buildroot}%{_datadir}/applications/*
+
+desktop-file-install --vendor="" \
+  --remove-category="Application" \
+  --remove-key="Name" \
+  --add-category="System" \
+  --add-category="Settings" \
+  --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/*
 
 # nuke rpath
 chrpath -d %{buildroot}%{_sbindir}/*
@@ -112,10 +104,10 @@ chrpath -d %{buildroot}%{_sbindir}/*
 %doc AUTHORS ChangeLog INSTALL README TODO
 %config(noreplace) %attr(0644,root,root) %{_sysconfdir}/pam.d/sysctlconfig-gtk
 %config(noreplace) %attr(0644,root,root) %{_sysconfdir}/security/console.apps/sysctlconfig-gtk
-%config(noreplace) %{_sysconfdir}/X11/applnk/System/sysctlconfig.desktop
+#%config(noreplace) %{_sysconfdir}/X11/applnk/System/sysctlconfig.desktop
 %{_sbindir}/sysctlconfig-gtk
 %{_bindir}/sysctlconfig-gtk
 %{_iconsdir}/*.png
 %{_datadir}/sysctlconfig/*
-%{_libdir}/menu/%{name}
+%{_datadir}/applications/*.desktop
 
