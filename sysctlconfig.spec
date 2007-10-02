@@ -1,6 +1,6 @@
 %define	name	sysctlconfig
 %define	version	0.15
-%define	release	5mdk
+%define	release	%mkrel 6
 
 Summary:	A configuration tool for operating system tunable parameters
 Name:		%{name}
@@ -43,6 +43,7 @@ parameters. It eases modifying /etc/sysctl.conf.
 
 %find_lang %{name}
 
+install -d %{buildroot}%{_bindir}
 install -d %{buildroot}%{_sbindir}
 install -d %{buildroot}%{_iconsdir}
 install -d %{buildroot}%{_sysconfdir}/security/console.apps
@@ -58,7 +59,7 @@ rm -f %{buildroot}%{_iconsdir}/*.xpm
 cat > %{buildroot}/%{_sysconfdir}/pam.d/sysctlconfig-gtk <<EOF
 #%PAM-1.0
 auth       sufficient   pam_rootok.so
-auth       required     pam_stack.so service=system-auth
+auth       include      system-auth
 session    optional     pam_xauth.so
 account    required     pam_permit.so
 EOF
@@ -69,6 +70,7 @@ FALLBACK=true
 PROGRAM=%{_sbindir}/sysctlconfig-gtk
 SESSION=true
 EOF
+ln -s %{_bindir}/consolehelper %{buildroot}%{_bindir}/sysctlconfig-gtk
 
 cat > %{buildroot}%{_sysconfdir}/X11/applnk/System/sysctlconfig.desktop << EOF
 [Desktop Entry]
@@ -112,6 +114,7 @@ chrpath -d %{buildroot}%{_sbindir}/*
 %config(noreplace) %attr(0644,root,root) %{_sysconfdir}/security/console.apps/sysctlconfig-gtk
 %config(noreplace) %{_sysconfdir}/X11/applnk/System/sysctlconfig.desktop
 %{_sbindir}/sysctlconfig-gtk
+%{_bindir}/sysctlconfig-gtk
 %{_iconsdir}/*.png
 %{_datadir}/sysctlconfig/*
 %{_libdir}/menu/%{name}
