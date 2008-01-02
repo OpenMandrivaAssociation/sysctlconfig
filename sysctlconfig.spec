@@ -20,6 +20,7 @@ BuildRequires:	libxml-devel
 BuildRequires:	chrpath
 Requires:	procps
 Requires:	usermode
+BuildRoot:	%{_tmppath}/%{name}-buildroot
 
 %description
 sysctl-config is a tool for configuring operating system tunable
