@@ -90,11 +90,15 @@ desktop-file-install --vendor="" \
 # nuke rpath
 chrpath -d %{buildroot}%{_sbindir}/*
 
+%if %mdkversion < 200900
 %post
 %{update_menus}
+%endif
 
+%if %mdkversion < 200900
 %postun
 %{clean_menus}
+%endif
 
 %clean
 [ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
