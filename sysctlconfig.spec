@@ -1,6 +1,6 @@
 %define	name	sysctlconfig
 %define	version	0.15
-%define	release	%mkrel 8
+%define	release	%mkrel 9
 
 Summary:	A configuration tool for operating system tunable parameters
 Name:		%{name}
