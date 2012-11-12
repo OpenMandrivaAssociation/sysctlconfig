@@ -1,0 +1,10 @@
+--- sysctlconfig/GUI/GTK/notebook.c	2000-06-15 10:33:12.000000000 +0200
++++ sysctlconfig/GUI/GTK/notebook.c.oden	2005-05-12 21:09:04.567648408 +0200
+@@ -79,6 +79,7 @@
+ 		}
+ 	}
+ out:
++        ;
+ }
+ 
+ 
