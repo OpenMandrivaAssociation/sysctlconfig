@@ -1,11 +1,7 @@
-%define	name	sysctlconfig
-%define	version	0.15
-%define	release	%mkrel 10
-
 Summary:	A configuration tool for operating system tunable parameters
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
+Name:		sysctlconfig
+Version:	0.15
+Release:	11
 License:	GPL
 Group:		System/Kernel and hardware
 URL:		http://www.redhat.de/
@@ -20,27 +16,22 @@ BuildRequires:	libxml-devel
 BuildRequires:	chrpath
 Requires:	procps
 Requires:	usermode
-BuildRoot:	%{_tmppath}/%{name}-buildroot
 
 %description
 sysctl-config is a tool for configuring operating system tunable
 parameters. It eases modifying /etc/sysctl.conf.
 
 %prep
-
 %setup -q 
 %patch0 -p0
 
 %build
-
 %configure2_5x
 
 %make
 
 %install
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
-
-%makeinstall
+%makeinstall_std
 
 %find_lang %{name}
 
@@ -90,21 +81,7 @@ desktop-file-install --vendor="" \
 # nuke rpath
 chrpath -d %{buildroot}%{_sbindir}/*
 
-%if %mdkversion < 200900
-%post
-%{update_menus}
-%endif
-
-%if %mdkversion < 200900
-%postun
-%{clean_menus}
-%endif
-
-%clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
-
 %files -f %{name}.lang
-%defattr(-, root,root)
 %doc AUTHORS ChangeLog INSTALL README TODO
 %config(noreplace) %attr(0644,root,root) %{_sysconfdir}/pam.d/sysctlconfig-gtk
 %config(noreplace) %attr(0644,root,root) %{_sysconfdir}/security/console.apps/sysctlconfig-gtk
