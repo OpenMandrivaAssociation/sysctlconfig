@@ -4,7 +4,7 @@ Version:	0.15
 Release:	11
 License:	GPL
 Group:		System/Kernel and hardware
-URL:		http://www.redhat.de/
+URL:		https://www.redhat.de/
 Source0:	%{name}-%{version}.tar.bz2
 Source1:	sysctlconfig-gtk.png.bz2
 Patch0:		sysctlconfig-0.15-gcc34.diff
