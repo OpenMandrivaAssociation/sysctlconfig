@@ -9,6 +9,11 @@ Source0:	%{name}-%{version}.tar.bz2
 Source1:	sysctlconfig-gtk.png.bz2
 Patch0:		sysctlconfig-0.15-gcc34.diff
 ExcludeArch:	ia64
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	desktop-file-utils recode
 BuildRequires:	gtk+-devel
 BuildRequires:	gtk+
